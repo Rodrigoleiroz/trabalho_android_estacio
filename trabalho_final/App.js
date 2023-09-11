@@ -15,7 +15,10 @@ export default function App() {
     )
   };
 
-  '');
+  const [primeironome, setPrimeironome] = useState('');
+  const [sobrenome, setSobrenome] = useState('');
+  const [email, setEmail] = useState('');
+  const [celular, setCelular] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmasenha, setConfirmasenha] = useState('');
   
