@@ -2,20 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Tela_Login from './tela_login';
+// import Tela_Login from './tela_login';
 
 
 
-export default function App() {
-  const App = () => {
-    return (
-      <NavigationContainer>
-          <tela_login/>
-      </NavigationContainer>
-    )
-  };
+export default function App() {    
 
-  '');
+  const [primeironome, setPrimeironome] = useState('');
+  const [sobrenome, setSobrenome] = useState('');
+  const [email, setEmail] = useState('');
+  const [celular, setCelular] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmasenha, setConfirmasenha] = useState('');
   
@@ -202,3 +198,4 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
