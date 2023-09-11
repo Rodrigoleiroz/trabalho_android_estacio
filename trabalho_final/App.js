@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
 import Tela_Login from './tela_login';
 
@@ -91,10 +91,9 @@ export default function App() {
         onChangeText={(texto) => setConfirmasenha(texto)}
       />
       
-      <Button
-        title="Cadastrar"
-        onPress={showAlert}
-      />
+      <TouchableOpacity style={styles.botaoCadastro} onPress={showAlert} >
+        <Text style= {{COLOR:'white', textAlign:'center'}}>Cadastrar</Text>        
+      </TouchableOpacity>
 
       <ScrollView style={styles.scrollView}>
         <Text style={styles.text}></Text>
@@ -123,14 +122,14 @@ const styles = StyleSheet.create({
   },
 
   primeironome: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFF',
     borderWidth: 1,
     borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 20,
+    padding: 15,
   },
   sobrenome: {
     backgroundColor: '#FFF',
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 20,
+    padding: 15,
   },
   email: {
     backgroundColor: '#FFF',
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 20,
+    padding: 15,
   },
   celular: {
     backgroundColor: '#FFF',
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 20,
+    padding: 15,
   },
   senha: {
     backgroundColor: '#FFF',
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 20,
+    padding: 15,
   },
   confirmasenha: {
     backgroundColor: '#FFF',
@@ -181,8 +180,18 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     marginBottom: 10,
-    padding: 20,
+    padding: 15,
   }, 
+  botaoCadastro: {
+    width: 350,
+    height: 20,
+    backgroundColor: 'red',
+    borderRadius: 20,
+    padding: 15,
+    marginLeft: 10,
+    justifyContent: 'center',
+
+  },
 
   imagem: {
     width: 280,
