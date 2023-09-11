@@ -37,48 +37,55 @@ export default function App() {
         source={require('./images/psicologia.png')}
       />
 
-      <Text style={styles.display1}>Cadastro de Clientes</Text>
+      <Text style={styles.display1}></Text>
       
-      <Text style={styles.display3}>Primeiro Nome</Text>
+      <Text style={styles.display2}></Text>
       <TextInput
+        placeholder= "Nome"
         style={styles.primeironome}
         value={primeironome}
         onChangeText={(texto) => setPrimeironome(texto)}
       />
 
-      <Text style={styles.display4}>Sobrenome </Text>
+      <Text style={styles.display3}></Text>
       <TextInput
+        placeholder= "Sobrenome"
         style={styles.sobrenome}
         value={sobrenome}
-        onChangeText={(texto) => setSobrenome(texto)}
-        keyboardType="numeric"
+        onChangeText={(texto) => setSobrenome(texto)}        
       />
 
-      <Text style={styles.display5}>Email</Text>
+      <Text style={styles.display4}></Text>
       <TextInput
+        placeholder= "Email"
         style={styles.email}
         value={email}
         onChangeText={(texto) => setEmail(texto)}
       />
 
-      <Text style={styles.display5}>Celular</Text>
+      <Text style={styles.display5}></Text>
       <TextInput
+        placeholder= "Celular com DDD"
         style={styles.celular}
         value={celular}
         onChangeText={(texto) => setCelular(texto)}
       />
 
       
-      <Text style={styles.display6}>Senha </Text>
+      <Text style={styles.display6}></Text>
       <TextInput
+        secureTextEntry={true}
+        placeholder= "Digite uma senha"
         style={styles.senha}
         value={senha}
         onChangeText={(texto) => setSenha(texto)}
         keyboardType="numeric"
       />
 
-      <Text style={styles.display7}>confirme sua senha </Text>
+      <Text style={styles.display7}></Text>
       <TextInput
+        secureTextEntry={true}
+        placeholder= "confirme sua senha"
         style={styles.confirmasenha}
         value={confirmasenha}
         onChangeText={(texto) => setConfirmasenha(texto)}
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
   display: {
     margin: 10,
     marginLeft: 30,
-    fontSize: 33,
+    fontSize: 28,
   },
   display1: {
     marginLeft: 50,
@@ -116,68 +123,67 @@ const styles = StyleSheet.create({
   },
 
   primeironome: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 2,
+    padding: 20,
   },
   sobrenome: {
     backgroundColor: '#FFF',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
-    padding: 2,
+    marginTop: 10,
+    padding: 20,
   },
   email: {
     backgroundColor: '#FFF',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
     marginTop: 10,
-    padding: 2,
+    padding: 20,
   },
   celular: {
     backgroundColor: '#FFF',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
-    padding: 2,
+    marginTop: 10,
+    padding: 20,
   },
   senha: {
     backgroundColor: '#FFF',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
-    padding: 2,
+    marginTop: 10,
+    padding: 20,
   },
   confirmasenha: {
     backgroundColor: '#FFF',
     borderWidth: 1,
+    borderRadius: 20,
     width: 350,
     height: 20,
     marginLeft: 10,
-    padding: 2,
-  },
-  
-  display6Container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 20,
     marginTop: 10,
-  },
-  display8Container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 20,
-    marginTop: 10,
-  },
+    marginBottom: 10,
+    padding: 20,
+  }, 
+
   imagem: {
     width: 280,
     height: 200,
