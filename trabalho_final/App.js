@@ -92,7 +92,7 @@ export default function App() {
       />
       
       <TouchableOpacity style={styles.botaoCadastro} onPress={showAlert} >
-        <Text style= {{COLOR:'white', textAlign:'center'}}>Cadastrar</Text>        
+        <Text style= {{Color:'#aaa', textAlign:'center'}}>Cadastrar</Text>        
       </TouchableOpacity>
 
       <ScrollView style={styles.scrollView}>
