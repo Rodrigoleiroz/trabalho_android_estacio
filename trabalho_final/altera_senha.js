@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tela_login from './tela_login';
+import nova_senha from './nova_senha';
 
 export default function altera_senha() {
   const [email, setEmail] = useState('');
@@ -18,9 +19,9 @@ export default function altera_senha() {
       return; // Saia da função se o email não for válido
     }
 
-    window.alert('Sua senha foi redefinida com sucesso!');
+    window.alert('Enviamos um link de redefinicao de senha para o email informado!');
     setEmail('');
-    navigation.navigate('tela_login');
+    navigation.navigate('nova_senha');
   };
 
   return (
