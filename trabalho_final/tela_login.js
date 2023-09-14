@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tela_cadastro from './tela_cadastro';
+import altera_senha from './altera_senha';
 
 export default function tela_login() {
   const [usuario, setUsuario] = useState('');
@@ -41,7 +42,7 @@ export default function tela_login() {
       <Image
         style={styles.imagem}
         resizeMode='stretch'
-        source={require('./images/psicologia.png')}
+        source={require('./images/Exapansao_da_Mente-logo.png')}
       />
 
       <Text style={styles.display1}></Text>

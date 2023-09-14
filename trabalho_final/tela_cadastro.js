@@ -28,7 +28,7 @@ export default function tela_cadastro() {
       <Image
         style={styles.imagem}
         resizeMode='stretch'
-        source={require('./images/psicologia.png')}
+        source={require('./images/Exapansao_da_Mente-logo.png')}
       />
 
       <Text style={styles.display1}></Text>
