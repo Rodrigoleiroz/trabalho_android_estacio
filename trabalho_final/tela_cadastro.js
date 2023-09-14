@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-// import Tela_Login from './tela_login';
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import tela_login from './tela_login';
 
 
-
-export default function App() {    
+export default function tela_cadastro() { 
 
   const [primeironome, setPrimeironome] = useState('');
   const [sobrenome, setSobrenome] = useState('');
@@ -14,10 +13,12 @@ export default function App() {
   const [celular, setCelular] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmasenha, setConfirmasenha] = useState('');
-  
+
+  const navigation = useNavigation();
   
   const showAlert = () => {
     window.alert('Seu cadastro foi realizado com sucesso!');
+    navigation.navigate('tela_login');
   };
 
   return (
@@ -198,4 +199,3 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
-
