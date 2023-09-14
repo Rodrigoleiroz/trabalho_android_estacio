@@ -11,7 +11,8 @@ export default function nova_senha() {
 
   const showAlert = () => {
     window.alert('Sua senha foi redefinida com sucesso!');
-    setEmail('');
+    setNovaSenha('');
+    setConfirmaNovaSenha('');
     navigation.navigate('tela_login');
   };
 
