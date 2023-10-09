@@ -1,0 +1,17 @@
+version: '3'
+services:
+  database:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: psicologia
+      POSTGRES_PASSWORD: psicologia
+      POSTGRES_DB: psicologia
+    initdb:
+      image: 'postgres:latest'
+      depends_on:
+        - database
+      volumes:
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
