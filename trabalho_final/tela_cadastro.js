@@ -23,7 +23,7 @@ export default function tela_cadastro() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.display}>Clinica Expansao da Mente</Text>
+      <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
         style={styles.imagem}
@@ -79,7 +79,7 @@ export default function tela_cadastro() {
       <Text style={styles.display7}></Text>
       <TextInput
         secureTextEntry={true}
-        placeholder= "confirme sua senha"
+        placeholder= "Confirme sua senha"
         style={styles.confirmasenha}
         value={confirmasenha}
         onChangeText={(texto) => setConfirmasenha(texto)}
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   display: {
     margin: 10,
-    marginLeft: 30,
+    marginLeft: 55,
     fontSize: 28,
   },
   display1: {

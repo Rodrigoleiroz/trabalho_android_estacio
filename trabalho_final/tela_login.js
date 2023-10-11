@@ -37,7 +37,7 @@ export default function tela_login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.display}>Clinica Expansao da Mente</Text>
+      <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
         style={styles.imagem}
@@ -54,17 +54,7 @@ export default function tela_login() {
         value={usuario}
         onChangeText={(texto) => setUsuario(texto)}
       />
-      <TextInput
-        onChangeText={(texto) => {
-          setUsuario(texto);
-          const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-          if (!emailRegex.test(texto)) {
-            setErroUsuario('Digite um email válido');
-          } else {
-            setErroUsuario('');
-          }
-        }}
-      />
+      
       {erroUsuario ? (
         <Text style={styles.erro}>{erroUsuario}</Text>
       ) : null}
@@ -111,7 +101,7 @@ const styles = StyleSheet.create({
   },
   display: {
     margin: 10,
-    marginLeft: 30,
+    marginLeft: 55,
     fontSize: 28,
   },
   display1: {
