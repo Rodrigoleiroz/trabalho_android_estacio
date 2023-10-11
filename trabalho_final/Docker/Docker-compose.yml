@@ -1,17 +1,14 @@
-version: '3'
+version: '3.8'
 services:
   database:
-    image: 'postgres:latest'
-    ports:
-      - 5432:5432
+    image: postgres
+    container_name: postgres
     environment:
-      POSTGRES_USER: psicologia
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: psicologia
-      POSTGRES_DB: psicologia
-    initdb:
-      image: 'postgres:latest'
-      depends_on:
-        - database
-      volumes:
-        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
+      POSTGRES_DB: cadastro
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    entrypoint: ["/bin/bash", "-c", "ls /docker-entrypoint-initdb.d/* > /dev/null 2>&1 && docker-entrypoint.sh postgres || true"]
+    ports:
+      - "5432:5432"
