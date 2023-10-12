@@ -9,6 +9,15 @@ services:
       POSTGRES_DB: cadastro
     volumes:
       - ~/apps/postgres:/var/lib/postgresql/data
-    entrypoint: ["/bin/bash", "-c", "ls /docker-entrypoint-initdb.d/* > /dev/null 2>&1 && docker-entrypoint.sh postgres || true"]
     ports:
       - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: rodrigoleiroz.uerj@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: psicologia123
+    ports:
+      - "5050:80"
+    depends_on:
+      - database

@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "name": "trabalho_android_estacio",
+  "description": "![Exapansao_da_Mente-logo](https://github.com/Rodrigoleiroz/trabalho_android_estacio/assets/76019058/0d2529c7-bd4f-4236-8414-45c65d8703f3)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

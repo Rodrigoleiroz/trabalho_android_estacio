@@ -26,7 +26,7 @@ export default function altera_senha() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.display}>Clinica Expansao da Mente</Text>
+      <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
         style={styles.imagem}
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   display: {
     margin: 10,
-    marginLeft: 30,
+    marginLeft: 50,
     fontSize: 28,
   },
   display1: {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     width: 350,
-    height: 20,
+    height: 45,
     marginLeft: 10,
     marginTop: 10,
     padding: 15,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   
   botaoRedefinir: {
     width: 350,
-    height: 20,
+    height: 45,
     backgroundColor: 'red',
     borderRadius: 20,
     padding: 15,

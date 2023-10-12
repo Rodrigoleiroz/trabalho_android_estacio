@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     width: 350,
-    height: 20,
+    height: 45,
     marginLeft: 10,
     marginTop: 10,
     padding: 15,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     width: 350,
-    height: 20,
+    height: 45,
     marginLeft: 10,
     marginTop: 10,
     padding: 15,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
 
   botaoLogin: {
     width: 350,
-    height: 20,
+    height: 45,
     backgroundColor: 'red',
     borderRadius: 20,
     padding: 15,
@@ -153,9 +153,9 @@ const styles = StyleSheet.create({
   },
 
   imagem: {
-    width: 280,
-    height: 200,
-    marginLeft: 40,
+    width: 250,
+    height: 160,
+    marginLeft: 60,
     marginTop: 10,
     marginBottom: 10,
   },

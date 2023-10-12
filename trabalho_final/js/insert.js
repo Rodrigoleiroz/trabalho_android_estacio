@@ -3,7 +3,7 @@ const db = require('./database');
 async function insertData() {
     await db.connect();
 
-    const queryTorcedor = "INSERT INTO usuarios (primeironome, sobrenome, email, celular, senha) VALUES ($1, $1, $1, $1, $1)";
+    const queryUsuarios = "INSERT INTO usuarios (primeironome, sobrenome, email, celular, senha) VALUES ($1, $2, $3, $4, $5)";
 
     try {
         await db.query(queryUsuarios, ['João Pedro', 'Silva', 'joao.silva@example.com', 21987654321, 123456]);
