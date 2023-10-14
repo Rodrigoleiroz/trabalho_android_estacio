@@ -26,6 +26,11 @@ app.delete('/usuarios/:celular', async (req, res) => {
     res.sendStatus(204);
 });
 
+app.post('/usuarios', async (req, res) => {
+    await db.insertCustomer(req.body);
+    res.sendStatus(201);
+});
+
 //inicia o servidor
 app.listen(port);
 console.log('API funcionando!');
