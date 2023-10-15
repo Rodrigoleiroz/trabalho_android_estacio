@@ -28,16 +28,24 @@ async function connect() {
     async function deleteCustomer(celular) {
         const client = await connect();
         return await client.query('DELETE FROM usuarios WHERE celular = $1', [celular]);
-    }
+    };
 
     async function insertCustomer(customer) {
         const client = await connect();
         const sql = 'INSERT INTO usuarios(primeironome, sobrenome, email, celular, senha) VALUES ($1,$2,$3,$4,$5);';
         const values = [customer.primeironome, customer.sobrenome, customer.email, customer.celular, customer.senha];
         return await client.query(sql, values);
-    }
+    };
+
+    async function updateCustomer(celular, customer) {
+        const client = await connect();
+        const sql = 'UPDATE usuarios SET primeironome=$1, sobrenome=$2, email=$3, senha=$4 WHERE celular=$5';
+        const values = [customer.primeironome, customer.sobrenome, customer.email, customer.senha, celular];
+        return await client.query(sql, values);
+    };
     
-    module.exports = { selectCustomers, selectCustomer, deleteCustomer, insertCustomer }
+    module.exports = { selectCustomers, selectCustomer, deleteCustomer, insertCustomer, updateCustomer }
+    
     
     //apenas testando a conexão
     const client = await pool.connect();
