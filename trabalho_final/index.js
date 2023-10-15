@@ -31,6 +31,11 @@ app.post('/usuarios', async (req, res) => {
     res.sendStatus(201);
 });
 
+app.patch('/usuarios/:celular', async (req, res) => {
+    await db.updateCustomer(req.params.celular, req.body);
+    res.sendStatus(200);
+});
+
 //inicia o servidor
 app.listen(port);
 console.log('API funcionando!');
