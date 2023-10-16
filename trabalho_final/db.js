@@ -1,10 +1,10 @@
 import { enablePromise, openDatabase } from 'expo-sqlite';
 
 // Defina a constante DATABASE_NAME
-const DATABASE_NAME = 'mydb.db';
+const DATABASE_NAME = 'psicologia.db';
 
 export async function getDbConnection() {
-    const db = await openDatabase({ name: psicologia, location: 'default'});
+    const db = await openDatabase({ name: DATABASE_NAME, location: 'default'});
     return db;
 }
 export async function initDatabase() {
@@ -20,12 +20,12 @@ export async function createTables(db) {
     return new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS cadastro (' +
+                'CREATE TABLE IF NOT EXISTS usuarios (' +
                 'cpf INT(11) PRIMARY KEY, ' +
                 'primeironome VARCHAR(20) NOT NULL, ' +
-                'sobrenome VARCHAR(50) NOT NULL' +
-                'email VARCHAR(100) NOT NULL' +
-                'celular VARCHAR(14) NOT NULL' +
+                'sobrenome VARCHAR(50) NOT NULL, ' +
+                'email VARCHAR(100) NOT NULL, ' +
+                'celular VARCHAR(14) NOT NULL, ' +
                 'senha VARCHAR(20) NOT NULL' +
                 ');',
                 [],
@@ -39,6 +39,7 @@ export async function createTables(db) {
         });
     });
 }
+
 
 export async function insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha) {
     return new Promise((resolve, reject) => {

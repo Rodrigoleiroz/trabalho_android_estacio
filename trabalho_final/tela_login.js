@@ -1,34 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import tela_cadastro from './tela_cadastro';
 import altera_senha from './altera_senha';
+import tela_dados_usuario from './tela_dados_usuario';
 import * as db from './db';
 
 const Stack = createStackNavigator();
 
 const tela_login = () => {
-  const [usuario, setUsuario] = useState('');
+  const [usuario, setUsuario] = useState(null);
   const [senha, setSenha] = useState('');
   const [erroUsuario, setErroUsuario] = useState('');
   const navigation = useNavigation();
 
+  useEffect(() => {
+    db.initDatabase(); // Inicialize o banco de dados no início do componente
+  }, []);
+
   const handleLogin = async () => {
     const dbConnection = await db.getDbConnection();
     const usuarios = await db.getUsuario(dbConnection);
-
-    const usuarioEncontrado = usuarios.find((user) => user.email === usuario && user.senha === senha);
-
-    if (usuarioEncontrado) {
-      navigation.navigate('Cadastro');
-      setUsuario('');
-      setSenha('');
-    } else {
-      alert('Usuário e/ou Senha inválidos');
+  
+    const usuarioEncontrado = usuarios.find(
+      (user) => user.email === usuario && user.senha === senha
+    );
+  
+    if (!usuarioEncontrado) {
+      Alert.alert('Erro', 'Email ou senha incorretos');
+      return;
     }
+  
+    setUsuario(usuarioEncontrado); // Armazene os dados do usuário
+    navigation.navigate('tela_dados_usuario'); // Navegue para a tela de dados do usuário
+    setUsuario('');
+    setSenha('');
   };
+  
 
 
   const navigateToAlterarSenha = () => {

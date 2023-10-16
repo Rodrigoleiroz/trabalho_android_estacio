@@ -246,4 +246,4 @@ const styles = StyleSheet.create({
   text: {},
 });
 
-export default tela_cadastro;
+export default tela_cadastro
