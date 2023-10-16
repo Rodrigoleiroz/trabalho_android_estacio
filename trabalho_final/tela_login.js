@@ -1,14 +1,35 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import tela_cadastro from './tela_cadastro';
 import altera_senha from './altera_senha';
+import * as db from './db';
 
-export default function tela_login() {
+const Stack = createStackNavigator();
+
+const tela_login = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
-  const [erroUsuario, setErroUsuario] = useState(''); // Estado para a mensagem de erro
-  const navigation = useNavigation(); // Obtenha o objeto de navegação
+  const [erroUsuario, setErroUsuario] = useState('');
+  const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    const dbConnection = await db.getDbConnection();
+    const usuarios = await db.getUsuario(dbConnection);
+
+    const usuarioEncontrado = usuarios.find((user) => user.email === usuario && user.senha === senha);
+
+    if (usuarioEncontrado) {
+      navigation.navigate('Cadastro');
+      setUsuario('');
+      setSenha('');
+    } else {
+      alert('Usuário e/ou Senha inválidos');
+    }
+  };
+
 
   const navigateToAlterarSenha = () => {
     // Navegue para a tela 'altera_senha'
@@ -164,3 +185,5 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+export default tela_login

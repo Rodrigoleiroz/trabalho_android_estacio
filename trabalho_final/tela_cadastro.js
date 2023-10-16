@@ -1,24 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createTables, insertUsuario, initDatabase, getDbConnection, getUsuario } from './db';
 import tela_login from './tela_login';
 
+const Stack = createStackNavigator();
 
-export default function tela_cadastro() { 
-
+const tela_cadastro = () => {
+  const [cpf, setCpf] = useState('');
   const [primeironome, setPrimeironome] = useState('');
   const [sobrenome, setSobrenome] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');  
   const [celular, setCelular] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmasenha, setConfirmasenha] = useState('');
 
-  const navigation = useNavigation();
-  
-  const showAlert = () => {
-    window.alert('Seu cadastro foi realizado com sucesso!');
-    navigation.navigate('tela_login');
+  const handleGravar = async () => {
+    console.log('Entrou na função handleGravar');
+
+    // Verifique os valores de cpf, primeironome, sobrenome, email e celular
+    console.log('cpf:', cpf);
+    console.log('primeironome:', primeironome);
+    console.log('sobrenome:', sobrenome);
+    console.log('email:', email);
+    console.log('celular:', celular);
+        
+    try {
+      await initDatabase();
+      const db = await getDbConnection();
+
+      // Fornecer os valores cpf, primeironome, sobrenome, email, celular e senha para insertUsuario
+      await insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha);
+      
+      setCpf('');
+      setPrimeironome('');
+      setSobrenome('');
+      setEmail('');
+      setCelular('');
+      setSenha('');
+      
+      alert('Registro gravado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao gravar registro:', error);
+      alert('Erro ao gravar registro. Verifique o console para mais informações.');
+    }
   };
 
   return (
@@ -32,8 +59,16 @@ export default function tela_cadastro() {
       />
 
       <Text style={styles.display1}></Text>
-      
+
       <Text style={styles.display2}></Text>
+      <TextInput
+        placeholder= "Cpf"
+        style={styles.cpf}
+        value={cpf}
+        onChangeText={(texto) => setCpf(texto)}
+      />
+      
+      <Text style={styles.display3}></Text>
       <TextInput
         placeholder= "Nome"
         style={styles.primeironome}
@@ -41,15 +76,15 @@ export default function tela_cadastro() {
         onChangeText={(texto) => setPrimeironome(texto)}
       />
 
-      <Text style={styles.display3}></Text>
+      <Text style={styles.display4}></Text>
       <TextInput
         placeholder= "Sobrenome"
         style={styles.sobrenome}
         value={sobrenome}
         onChangeText={(texto) => setSobrenome(texto)}        
       />
-
-      <Text style={styles.display4}></Text>
+      
+      <Text style={styles.display5}></Text>
       <TextInput
         placeholder= "Email"
         style={styles.email}
@@ -57,7 +92,7 @@ export default function tela_cadastro() {
         onChangeText={(texto) => setEmail(texto)}
       />
 
-      <Text style={styles.display5}></Text>
+      <Text style={styles.display6}></Text>
       <TextInput
         placeholder= "Celular com DDD"
         style={styles.celular}
@@ -66,7 +101,7 @@ export default function tela_cadastro() {
       />
 
       
-      <Text style={styles.display6}></Text>
+      <Text style={styles.display7}></Text>
       <TextInput
         secureTextEntry={true}
         placeholder= "Digite uma senha"
@@ -76,7 +111,7 @@ export default function tela_cadastro() {
         keyboardType="numeric"
       />
 
-      <Text style={styles.display7}></Text>
+      <Text style={styles.display8}></Text>
       <TextInput
         secureTextEntry={true}
         placeholder= "Confirme sua senha"
@@ -85,7 +120,7 @@ export default function tela_cadastro() {
         onChangeText={(texto) => setConfirmasenha(texto)}
       />
       
-      <TouchableOpacity style={styles.botaoCadastro} onPress={showAlert} >
+      <TouchableOpacity style={styles.botaoCadastro} onPress={handleGravar} >
         <Text style= {{COLOR:'white', textAlign:'center'}}>Cadastrar</Text>        
       </TouchableOpacity>
 
@@ -115,6 +150,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
+  cpf: {
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderRadius: 20,
+    width: 350,
+    height: 45,
+    marginLeft: 10,
+    marginTop: 5,
+    padding: 15,
+  },
   primeironome: {
     backgroundColor: '#FFF',
     borderWidth: 1,
@@ -200,3 +245,5 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+export default tela_cadastro;
