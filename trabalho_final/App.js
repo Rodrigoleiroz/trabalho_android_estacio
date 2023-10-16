@@ -4,10 +4,20 @@ import tela_login from './tela_login';
 import tela_cadastro from './tela_cadastro';
 import altera_senha from './altera_senha';
 import nova_senha from './nova_senha';
+import { initDatabase } from './db';
 
 const Stack = createStackNavigator();
 
-function App() {
+const App = () => {
+
+useEffect(() => {
+  async function init() {
+    const db = await initDatabase(); // Chame a inicialização do banco de dados apenas uma vez
+  }
+  init();
+}, []);
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="tela_login">
@@ -19,6 +29,6 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default App;
