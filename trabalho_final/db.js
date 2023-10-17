@@ -1,65 +1,63 @@
-import { enablePromise, openDatabase } from 'expo-sqlite';
+async function connect() {
+    if (global.connection)
+        return global.connection.connect();
 
-// Defina a constante DATABASE_NAME
-const DATABASE_NAME = 'mydb.db';
-
-export async function getDbConnection() {
-    const db = await openDatabase({ name: psicologia, location: 'default'});
-    return db;
-}
-export async function initDatabase() {
-    console.log('Iniciando o banco de dados...');
-    const db = await getDbConnection();
-    console.log('Banco de dados inicializado');
-    await createTables(db);
-    console.log('Tabela "usuarios" criada');
-    // Não feche a conexão aqui, mantenha-a aberta
-    // db.close();
-}
-export async function createTables(db) {
-    return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS cadastro (' +
-                'cpf INT(11) PRIMARY KEY, ' +
-                'primeironome VARCHAR(20) NOT NULL, ' +
-                'sobrenome VARCHAR(50) NOT NULL' +
-                'email VARCHAR(100) NOT NULL' +
-                'celular VARCHAR(14) NOT NULL' +
-                'senha VARCHAR(20) NOT NULL' +
-                ');',
-                [],
-                () => {
-                    resolve();
-                },
-                (_, error) => {
-                    reject(error);
-                }
-            );
-        });
+    const { Pool } = require('pg');
+    
+    const pool = new Pool({
+        host     : 'localhost',
+        user     : 'postgres',
+        password : 'psicologia',
+        database : 'cadastro',
+        port     : '5432',
     });
+
+    // Busca um usuario passando o celular
+    async function selectCustomer(celular) {
+        const client = await connect();
+        const res = await client.query('SELECT * FROM usuarios WHERE celular = $1', [celular]);
+        return res.rows;
+    };
+    // Retorna todos os usuarios em um Json 
+    async function selectCustomers() {
+        const client = await connect();
+        const res = await client.query('SELECT * FROM usuarios');
+        return res.rows;
+    };
+    // Apaga um usuario passando o celular
+    async function deleteCustomer(celular) {
+        const client = await connect();
+        return await client.query('DELETE FROM usuarios WHERE celular = $1', [celular]);
+    };
+
+    async function insertCustomer(customer) {
+        const client = await connect();
+        const sql = 'INSERT INTO usuarios(primeironome, sobrenome, email, celular, senha) VALUES ($1,$2,$3,$4,$5);';
+        const values = [customer.primeironome, customer.sobrenome, customer.email, customer.celular, customer.senha];
+        return await client.query(sql, values);
+    };
+
+    async function updateCustomer(celular, customer) {
+        const client = await connect();
+        const sql = 'UPDATE usuarios SET primeironome=$1, sobrenome=$2, email=$3, senha=$4 WHERE celular=$5';
+        const values = [customer.primeironome, customer.sobrenome, customer.email, customer.senha, celular];
+        return await client.query(sql, values);
+    };
+    
+    module.exports = { selectCustomers, selectCustomer, deleteCustomer, insertCustomer, updateCustomer }
+    
+    
+    //apenas testando a conexão
+    const client = await pool.connect();
+    console.log("Criou pool de conexões no PostgreSQL!");
+
+    const res = await client.query('SELECT NOW()');
+    console.log(res.rows[0]);
+    client.release();
+
+    //guardando para usar sempre o mesmo
+    global.connection = pool;
+    return pool.connect();
 }
 
-export async function insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha) {
-    return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                'INSERT INTO usuarios (cpf, primeironome, sobrenome, email, celular, senha) VALUES (?, ?, ?, ?, ?, ?);',
-                [cpf, primeironome, sobrenome, email, celular, senha],
-                (_, result) => {
-                    resolve(result);
-                },
-                (_, error) => {
-                    console.error('Erro durante a inserção:', error);
-                    reject(error);
-                }
-            );
-        });
-    });
-}
-
-export async function getUsuario(db) {
-    const results = await db.executeSql('SELECT cpf, primeironome, sobrenome, email, celular, senha FROM usuarios');
-    const usuarios = results[0].rows.map(row => row);
-    return usuarios;
-}
+connect();

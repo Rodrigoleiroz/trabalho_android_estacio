@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import tela_cadastro from './tela_cadastro';
-import altera_senha from './altera_senha';
+import { createStackNavigator } from '@react-navigation/stack';
+import * as db from './db';
 
-export default function tela_login() {
+const Stack = createStackNavigator();
+
+const tela_login = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
-  const [erroUsuario, setErroUsuario] = useState(''); // Estado para a mensagem de erro
-  const navigation = useNavigation(); // Obtenha o objeto de navegação
+  const [erroUsuario, setErroUsuario] = useState('');
+  const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    const dbConnection = await db.getDbConnection();
+    const usuarios = await db.getUsuario(dbConnection);
+
+    const usuarioEncontrado = usuarios.find((user) => user.email === usuario && user.senha === senha);
+
+    if (usuarioEncontrado) {
+      console.log('Usuário logado:', usuarioEncontrado);
+      navigation.navigate('Cadastro');
+      setUsuario('');
+      setSenha('');
+    } else {
+      alert('Usuário e/ou Senha inválidos');
+    }
+  };
 
   const navigateToAlterarSenha = () => {
     // Navegue para a tela 'altera_senha'
@@ -18,21 +36,6 @@ export default function tela_login() {
   const navigateToTelaCadastro = () => {
     // Navegue para a tela 'tela_cadastro'
     navigation.navigate('tela_cadastro');
-  };
-
-  const showAlert = () => {
-    // Verifique se o email é válido antes de fazer o login
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!emailRegex.test(usuario)) {
-      setErroUsuario('Digite um email válido!');
-      setUsuario('');
-      setSenha('');       
-      return; // Saia da função se o email não for válido
-    }
-
-    window.alert('Seu login foi realizado com sucesso!');
-    setUsuario('');
-    setSenha(''); 
   };
 
   return (
@@ -49,12 +52,12 @@ export default function tela_login() {
 
       <Text style={styles.display2}></Text>
       <TextInput
-        placeholder="Email do usuario"
+        placeholder="Email do usuário"
         style={styles.usuario}
         value={usuario}
         onChangeText={(texto) => setUsuario(texto)}
       />
-      
+
       {erroUsuario ? (
         <Text style={styles.erro}>{erroUsuario}</Text>
       ) : null}
@@ -78,7 +81,7 @@ export default function tela_login() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.botaoLogin} onPress={showAlert}>
+      <TouchableOpacity style={styles.botaoLogin} onPress={handleLogin}>
         <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
       </TouchableOpacity>
 
@@ -86,9 +89,7 @@ export default function tela_login() {
         <Text style={styles.text}></Text>
       </ScrollView>
 
-      
     </View>
-
   );
 }
 
@@ -123,8 +124,8 @@ const styles = StyleSheet.create({
   erro: {
     color: 'yellow',
     marginLeft: 15,
-    },
-  
+  },
+
   senha: {
     backgroundColor: '#FFF',
     borderWidth: 1,
@@ -164,3 +165,5 @@ const styles = StyleSheet.create({
   },
   text: {},
 });
+
+export default tela_login;
