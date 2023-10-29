@@ -8,7 +8,8 @@ import nova_senha from './nova_senha';
 export default function altera_senha() {
   const [email, setEmail] = useState('');
   const [erroEmail, setErroEmail] = useState(''); // Estado para a mensagem de erro
-  const navigation = useNavigation(); // Obtenha o objeto de navegação
+  const navigation = useNavigation(); 
+
 
   const showAlert = () => {
     // Verifique se o email é válido
@@ -26,6 +27,10 @@ export default function altera_senha() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_login')}>
+        <Text style={{ color: 'blue', textAlign: 'left' }}>Voltar</Text>
+      </TouchableOpacity>
+
       <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
