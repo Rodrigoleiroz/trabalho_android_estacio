@@ -77,17 +77,17 @@ export async function inserirRegistrosIniciais(db) {
             // Inserir o primeiro registro
             tx.executeSql(
                 'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                ['53427', 'Julia', 'Santos Souza', 'TCC', 'Amil', 'Maranhao', 'julia.santos@example.com', '21987654234'],
+                ['81234', 'João', 'Silva', 'Hospital', 'Bradesco Saúde', 'São Paulo', 'joao.silva@example.com', '11987654321'],
                 (_, result) => {
                     // Inserir o segundo registro
                     tx.executeSql(
                         'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                        ['28463', 'Margareth', 'Juliano', 'Psicanalista', 'Assim', 'Tocantins', 'Margareth Juliano@example.com', '6398251463'],
+                        ['81235', 'Maria', 'Santos', 'Clínica', 'Amil', 'Belo Horizonte', 'maria.santos@example.com', '3134567890'],
                         (_, result) => {
                             // Inserir o terceiro registro
                             tx.executeSql(
                                 'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                                ['81233', 'Luisa', 'Correa', 'Clinica', 'Golden Cross', 'Rio de Janeiro', 'luisa.correa@example.com', '21982456376'],
+                                ['81236', 'Pedro', 'Ferreira', 'Consultório', 'Unimed', 'Porto Alegre', 'pedro.ferreira@example.com', '51398765432'],
                                 (_, result) => {
                                     resolve();
                                 },
