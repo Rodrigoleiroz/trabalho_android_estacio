@@ -13,6 +13,11 @@ export async function initDatabase() {
     console.log('Banco de dados inicializado');
     await createTables(db);
     console.log('Tabela "usuarios" criada');
+    await createColaboradoresTable(db); 
+    console.log('Tabela "colaboradores" criada');
+    await createColaboradoresTable(db);
+    await inserirRegistrosIniciais(db);
+
     // Não feche a conexão aqui, mantenha-a aberta
     // db.close();
 }
@@ -40,6 +45,69 @@ export async function createTables(db) {
     });
 }
 
+export async function createColaboradoresTable(db) {
+    return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'CREATE TABLE IF NOT EXISTS colaboradores (' +
+                'crp VARCHAR(10) PRIMARY KEY, ' +
+                'primeironome VARCHAR(20) NOT NULL, ' +
+                'sobrenome VARCHAR(50) NOT NULL, ' +
+                'vertente VARCHAR(50) NOT NULL, ' +
+                'convenio VARCHAR(50) NOT NULL, ' +
+                'estado VARCHAR(50) NOT NULL, ' +
+                'email VARCHAR(100) NOT NULL, ' +
+                'celular VARCHAR(14) NOT NULL' +
+                ');',
+                [],
+                () => {
+                    resolve();
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+}
+
+export async function inserirRegistrosIniciais(db) {
+    return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            // Inserir o primeiro registro
+            tx.executeSql(
+                'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+                ['53427', 'Julia', 'Santos Souza', 'TCC', 'Amil', 'Maranhao', 'julia.santos@example.com', '21987654234'],
+                (_, result) => {
+                    // Inserir o segundo registro
+                    tx.executeSql(
+                        'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+                        ['28463', 'Margareth', 'Juliano', 'Psicanalista', 'Assim', 'Tocantins', 'Margareth Juliano@example.com', '6398251463'],
+                        (_, result) => {
+                            // Inserir o terceiro registro
+                            tx.executeSql(
+                                'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+                                ['81233', 'Luisa', 'Correa', 'Clinica', 'Golden Cross', 'Rio de Janeiro', 'luisa.correa@example.com', '21982456376'],
+                                (_, result) => {
+                                    resolve();
+                                },
+                                (_, error) => {
+                                    reject(error);
+                                }
+                            );
+                        },
+                        (_, error) => {
+                            reject(error);
+                        }
+                    );
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+}
 
 export async function insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha) {
     return new Promise((resolve, reject) => {
@@ -77,20 +145,28 @@ export async function getUsuario(db) {
     });
 }
 
-// export async function updateSenha(db, email, novaSenha) {
-//     return new Promise((resolve, reject) => {
-//         db.transaction((tx) => {
-//             tx.executeSql(
-//                 'UPDATE usuarios SET senha = ? WHERE email = ?;',
-//                 [novaSenha, email],
-//                 (_, result) => {
-//                     resolve(result);
-//                 },
-//                 (_, error) => {
-//                     console.error('Erro durante a atualização de senha:', error);
-//                     reject(error);
-//                 }
-//             );
-//         });
-//     });
-// }
+export async function getTodosColaboradores() {
+    const db = await getDbConnection();
+    
+    return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql('SELECT * FROM colaboradores', [], (_, results) => {
+                // Mapeie os resultados para um array de objetos
+                const colaboradores = [];
+                for (let i = 0; i < results.rows.length; i++) {
+                    const row = results.rows.item(i);
+                    colaboradores.push(row);
+                }
+                resolve(colaboradores);
+            }, (_, error) => {
+                reject(error);
+            });
+        });
+    });
+}
+
+
+
+
+
+
