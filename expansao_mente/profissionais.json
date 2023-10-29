@@ -1,0 +1,83 @@
+[
+    {
+      "crp": 53427,
+      "primeironome": "Julia",
+      "sobrenome": "Santos Souza",
+      "vertente": "TCC",
+      "convenios": "Amil, Bradesco Saude",
+      "estado": "Maranhao",
+      "email": "julia.santos@example.com",
+      "celular": "21987654234"
+    },
+    {
+      "crp": 28463,
+      "primeironome": "Margareth",
+      "sobrenome": "Juliano",
+      "vertente": "Psicanalista",
+      "convenios": "Assim, Amil, SulAmerica, Bradesco Saude",
+      "estado": "Tocantins",
+      "email": "Margareth Juliano@example.com",
+      "celular": "6398251463"      
+    },
+    {
+      "crp": 81233,
+      "primeironome": "Luisa",
+      "sobrenome": "Correa",
+      "vertente": "Clinica",
+      "convenios": "Golden Cross",
+      "estado": "Rio de Janeiro",
+      "email": "luisa.correa@example.com",
+      "celular": "21982456376"
+    },
+    {
+      "crp": 81776,
+      "primeironome": "Adriana",
+      "sobrenome": "Quintana",
+      "vertente": "Gestaltista",
+      "convenios": "Golden Cross, Assim, Allianz",
+      "estado": "Rio de Janeiro",
+      "email": "adriana.quintana@example.com",
+      "celular": "21999384555"
+    },
+    {
+      "crp": 92345,
+      "primeironome": "Carlos",
+      "sobrenome": "Silva",
+      "vertente": "Humanista",
+      "convenios": "Particular",
+      "estado": "Sao Paulo",
+      "email": "carlos.silva@example.com",
+      "celular": 11987654321
+    },
+    {
+      "crp": 73654,
+      "primeironome": "Fernanda",
+      "sobrenome": "Lima",
+      "vertente": "Psicodrama",
+      "convenios": "Todos",
+      "estado": "Minas Gerais",
+      "email": "fernanda.lima@example.com",
+      "celular": 31976543212
+    },
+    {
+        "crp": 64532,
+        "primeironome": "Rodrigo",
+        "sobrenome": "Almeida",
+        "vertente": "TCC",
+        "convenios": "Amil, SulAmerica, Unimed",
+        "estado": "Parana",
+        "email": "rodrigo.almeida@example.com",
+        "celular": 41987654321
+    },
+    {
+        "crp": 55432,
+        "primeironome": "Patricia",
+        "sobrenome": "Oliveira",
+        "vertente": "Junguiana",
+        "convenios": "Particular",
+        "estado": "Rio Grande do Sul",
+        "email": "patricia.oliveira@example.com",
+        "celular": 51987654321
+    }
+    
+]
