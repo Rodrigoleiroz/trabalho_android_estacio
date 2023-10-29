@@ -4,7 +4,7 @@
       "primeironome": "Julia",
       "sobrenome": "Santos Souza",
       "vertente": "TCC",
-      "convenios": "Amil, Bradesco Saude",
+      "convenios": "Amil",
       "estado": "Maranhao",
       "email": "julia.santos@example.com",
       "celular": "21987654234"
@@ -14,7 +14,7 @@
       "primeironome": "Margareth",
       "sobrenome": "Juliano",
       "vertente": "Psicanalista",
-      "convenios": "Assim, Amil, SulAmerica, Bradesco Saude",
+      "convenios": "Assim",
       "estado": "Tocantins",
       "email": "Margareth Juliano@example.com",
       "celular": "6398251463"      
@@ -34,7 +34,7 @@
       "primeironome": "Adriana",
       "sobrenome": "Quintana",
       "vertente": "Gestaltista",
-      "convenios": "Golden Cross, Assim, Allianz",
+      "convenios": "Golden Cross",
       "estado": "Rio de Janeiro",
       "email": "adriana.quintana@example.com",
       "celular": "21999384555"
@@ -64,7 +64,7 @@
         "primeironome": "Rodrigo",
         "sobrenome": "Almeida",
         "vertente": "TCC",
-        "convenios": "Amil, SulAmerica, Unimed",
+        "convenios": "Amil",
         "estado": "Parana",
         "email": "rodrigo.almeida@example.com",
         "celular": 41987654321
