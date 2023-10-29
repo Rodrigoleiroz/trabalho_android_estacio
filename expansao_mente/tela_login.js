@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as db from './db';
+import tela_marcacao from './tela_marcacao';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -10,6 +12,7 @@ const tela_login = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [erroUsuario, setErroUsuario] = useState('');
+  const [hidePass, setHidePass] = useState(true);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -20,7 +23,7 @@ const tela_login = () => {
 
     if (usuarioEncontrado) {
       console.log('Usuário logado:', usuarioEncontrado);
-      navigation.navigate('Cadastro');
+      navigation.navigate('tela_marcacao');
       setUsuario('');
       setSenha('');
     } else {
@@ -31,11 +34,15 @@ const tela_login = () => {
   const navigateToAlterarSenha = () => {
     // Navegue para a tela 'altera_senha'
     navigation.navigate('altera_senha');
+    setUsuario('');
+    setSenha('');
   };
 
   const navigateToTelaCadastro = () => {
     // Navegue para a tela 'tela_cadastro'
     navigation.navigate('tela_cadastro');
+    setUsuario('');
+    setSenha('');
   };
 
   return (
@@ -62,14 +69,23 @@ const tela_login = () => {
         <Text style={styles.erro}>{erroUsuario}</Text>
       ) : null}
 
-      <Text style={styles.display3}></Text>
-      <TextInput
-        secureTextEntry={true}
-        placeholder="Senha"
-        style={styles.senha}
-        value={senha}
-        onChangeText={(texto) => setSenha(texto)}
-      />
+      <View style={styles.inputArea}>
+        <TextInput          
+          placeholder= "Senha"
+          style={styles.senha}
+          value={senha}
+          onChangeText={(texto) => setSenha(texto)}
+          secureTextEntry={hidePass}   
+        /> 
+        <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+          {hidePass ?
+            <Ionicons name="eye" color="#FFF" size={25} />
+            :
+            <Ionicons name="eye-off" color="#FFF" size={25} />
+
+          }
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.linkContainer}>
         <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToAlterarSenha}>
@@ -126,15 +142,27 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 
-  senha: {
-    backgroundColor: '#FFF',
+  inputArea:{
+    flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 20,
     width: 350,
-    height: 45,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    height: 45, 
     marginLeft: 10,
-    marginTop: 10,
+    marginTop: 5,
     padding: 15,
+  },
+  senha: {
+    Color: '#FFF',    
+    width: '85%',
+    height: 20      
+  },
+
+  icon: {
+    width: '15%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   link: {
