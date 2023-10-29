@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createTables, insertUsuario, initDatabase, getDbConnection, getUsuario } from './db';
-import tela_login from './tela_login';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const Stack = createStackNavigator();
 
@@ -16,6 +18,9 @@ const tela_cadastro = () => {
   const [celular, setCelular] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmasenha, setConfirmasenha] = useState('');
+  const [hidePass, setHidePass] = useState(true);
+  const navigation = useNavigation();
+
 
   const handleGravar = async () => {
     console.log('Entrou na função handleGravar');
@@ -58,6 +63,10 @@ const tela_cadastro = () => {
 
   return (
     <View style={styles.container}>
+
+      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_login')}>
+        <Text style={{ color: 'blue', textAlign: 'left' }}>Voltar</Text>
+      </TouchableOpacity>
       <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
@@ -67,6 +76,8 @@ const tela_cadastro = () => {
       />
 
       <Text style={styles.display1}></Text>
+
+
 
       <Text style={styles.display2}></Text>
       <TextInput
@@ -109,7 +120,7 @@ const tela_cadastro = () => {
       />
 
       
-      <Text style={styles.display7}></Text>
+      {/* <Text style={styles.display7}></Text>
       <TextInput
         secureTextEntry={true}
         placeholder= "Digite uma senha"
@@ -117,16 +128,52 @@ const tela_cadastro = () => {
         value={senha}
         onChangeText={(texto) => setSenha(texto)}
         keyboardType="numeric"
-      />
+      /> */}
 
-      <Text style={styles.display8}></Text>
+      <View style={styles.inputArea}>
+        <TextInput          
+          placeholder= "Digite uma senha"
+          style={styles.senha}
+          value={senha}
+          onChangeText={(texto) => setSenha(texto)}
+          secureTextEntry={hidePass}   
+        /> 
+        <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+          {hidePass ?
+            <Ionicons name="eye" color="#FFF" size={25} />
+            :
+            <Ionicons name="eye-off" color="#FFF" size={25} />
+
+          }
+        </TouchableOpacity>
+      </View>
+
+      {/* <Text style={styles.display8}></Text>
       <TextInput
         secureTextEntry={true}
         placeholder= "Confirme sua senha"
         style={styles.confirmasenha}
         value={confirmasenha}
         onChangeText={(texto) => setConfirmasenha(texto)}
-      />
+      /> */}
+
+<View style={styles.inputArea}>
+        <TextInput          
+        placeholder= "Confirme sua senha"
+        style={styles.confirmasenha}
+        value={confirmasenha}
+        onChangeText={(texto) => setConfirmasenha(texto)}
+        secureTextEntry={hidePass}   
+        /> 
+        <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
+          {hidePass ?
+          <Ionicons name="eye" color="#FFF" size={25} />
+          :
+          <Ionicons name="eye-off" color="#FFF" size={25} />
+
+        }
+        </TouchableOpacity>
+      </View>
       
       <TouchableOpacity style={styles.botaoCadastro} onPress={handleGravar} >
         <Text style= {{COLOR:'white', textAlign:'center'}}>Cadastrar</Text>        
@@ -208,27 +255,55 @@ const styles = StyleSheet.create({
     marginTop: 5,
     padding: 15,
   },
-  senha: {
-    backgroundColor: '#FFF',
+  // senha: {
+  //   backgroundColor: '#FFF',
+  //   borderWidth: 1,
+  //   borderRadius: 20,
+  //   width: 350,
+  //   height: 45,
+  //   marginLeft: 10,
+  //   marginTop: 5,
+  //   padding: 15,
+  // },
+  // confirmasenha: {
+  //   backgroundColor: '#FFF',
+  //   borderWidth: 1,
+  //   borderRadius: 20,
+  //   width: 350,
+  //   height: 45,
+  //   marginLeft: 10,
+  //   marginTop: 5,
+  //   marginBottom: 10,
+  //   padding: 15,
+  // }, 
+  inputArea:{
+    flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 20,
     width: 350,
-    height: 45,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    height: 45, 
     marginLeft: 10,
     marginTop: 5,
     padding: 15,
   },
+  senha: {
+    Color: '#FFF',    
+    width: '85%',
+    height: 20      
+  },
   confirmasenha: {
-    backgroundColor: '#FFF',
-    borderWidth: 1,
-    borderRadius: 20,
-    width: 350,
-    height: 45,
-    marginLeft: 10,
-    marginTop: 5,
-    marginBottom: 10,
-    padding: 15,
-  }, 
+    Color: '#FFF',
+    width: '85%',
+    height: 20
+     
+  },
+  icon: {
+    width: '15%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   botaoCadastro: {
     width: 350,
     height: 45,
