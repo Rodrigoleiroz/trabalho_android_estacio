@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as db from './db';
 import tela_marcacao from './tela_marcacao';
+import tela_info from './tela_info';
 import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
@@ -41,6 +42,13 @@ const tela_login = () => {
   const navigateToTelaCadastro = () => {
     // Navegue para a tela 'tela_cadastro'
     navigation.navigate('tela_cadastro');
+    setUsuario('');
+    setSenha('');
+  };
+
+  const navigateToInfo = () => {
+    // Navegue para a tela 'tela_info'
+    navigation.navigate('tela_info');
     setUsuario('');
     setSenha('');
   };
@@ -89,16 +97,22 @@ const tela_login = () => {
 
       <View style={styles.linkContainer}>
         <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToAlterarSenha}>
-          <Text style={{ color: 'blue', textAlign: 'center' }}>Alterar senha</Text>
+          <Text style={{ color: 'darkblue', textAlign: 'center' }}>Alterar senha</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToTelaCadastro}>
-          <Text style={{ color: 'blue', textAlign: 'center' }}>Cadastrar</Text>
+          <Text style={{ color: 'darkblue', textAlign: 'center' }}>Cadastrar</Text>
         </TouchableOpacity>
+
       </View>
 
       <TouchableOpacity style={styles.botaoLogin} onPress={handleLogin}>
         <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
+      </TouchableOpacity>
+
+
+      <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToInfo}>
+          <Text style={{ color: 'darkblue', textAlign: 'center' }}>Sobre o App</Text>
       </TouchableOpacity>
 
       <ScrollView style={styles.scrollView}>
