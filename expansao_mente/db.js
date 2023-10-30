@@ -145,7 +145,7 @@ export async function getUsuario(db) {
     });
 }
 
-export async function getTodosColaboradores() {
+export async function buscarColaboradoresPorFiltro() {
     const db = await getDbConnection();
     
     return new Promise((resolve, reject) => {
@@ -165,8 +165,21 @@ export async function getTodosColaboradores() {
     });
 }
 
-
-
-
-
-
+export async function updateUsuario(db, cpf, primeironome, sobrenome, email, celular, senha) {
+    return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'UPDATE usuarios ' +
+                'SET primeironome = ?, sobrenome = ?, email = ?, celular = ?, senha = ? ' +
+                'WHERE cpf = ?',
+                [primeironome, sobrenome, email, celular, senha, cpf],
+                (_, result) => {
+                    resolve(result);
+                },
+                (_, error) => {
+                    reject(error);
+                }
+            );
+        });
+    });
+}
