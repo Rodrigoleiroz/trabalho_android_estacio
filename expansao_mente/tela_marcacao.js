@@ -1,6 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Picker } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import tela_perfil from './tela_perfil';
+
+import { buscarColaboradoresPorFiltro } from './db';
 
 const vertenteOptions = ["Todos", "TCC", "Psicanálista", "Gestaltista", "Junguiana", "Clínica", "Humanista", "Psicodrama"];
 const convenioOptions = ["Todos", "Particular", "Amil", "SulAmérica", "Unimed", "Bradesco Saúde", "Golden Cross", "Assim", "NotreDame Intermédica", "São Francisco", "Green Line", "Omint", "Allianz"];
@@ -10,6 +14,11 @@ const tela_marcacao = () => {
   const [selectedVertente, setSelectedVertente] = useState('');
   const [selectedConvenio, setSelectedConvenio] = useState('');
   const [selectedEstado, setSelectedEstado] = useState('');
+  const navigation = useNavigation();
+
+  const [profissionaisFiltrados, setProfissionaisFiltrados] = useState([]); // Armazene os profissionais filtrados
+  const [resultadosBusca, setResultadosBusca] = useState([]);
+
 
   const handleGravar = async () => {
     console.log('Entrou na função handleGravar');
@@ -19,15 +28,38 @@ const tela_marcacao = () => {
       alert('Por favor, preencha todos os campos.');
       return;
     }
+//--------------------------------------------------------------------------------------------------------------------------
+  try {
+    const colaboradores = await buscarColaboradoresPorFiltro(
+      selectedVertente,
+      console.log(selectedVertente),
+      selectedConvenio,
+      console.log(selectedConvenio),
+      selectedEstado,
+      console.log(selectedEstado)
+    );
+    setResultadosBusca(colaboradores); // Atualize os resultados da busca
+  } catch (error) {
+    console.error('Erro durante a busca de profissionais:', error);
+    alert('Erro durante a busca de profissionais. Verifique o console para mais informações.');
+  }
+  
+//--------------------------------------------------------------------------------------------------------------------------
 
     // Agora você pode usar selectedVertente, selectedConvenio e selectedEstado nos seus processos de busca ou chamadas para a função getProfissionais.
     // Exemplo de chamada para getProfissionais com as variáveis selecionadas:
     // const profissionaisFiltrados = await getProfissionais(selectedVertente, selectedConvenio, selectedEstado);
     // Faça o que for necessário com profissionaisFiltrados.
+    
   };
 
   return (
     <View style={styles.container}>
+
+      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_perfil')}>
+        <Text style={{ color: 'darkblue', textAlign: 'right' }}>Perfil</Text>
+      </TouchableOpacity>
+
       <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
@@ -78,6 +110,14 @@ const tela_marcacao = () => {
       <TouchableOpacity style={styles.botaoBuscar} onPress={handleGravar} >
         <Text style= {{COLOR:'white', textAlign:'center'}}>Buscar Profissional</Text>        
       </TouchableOpacity>
+
+      <View style={styles.pickerContainer}>
+        <Text style={styles.label}>Resultado da Busca:</Text>
+        {resultadosBusca.map((colaboradores, index) => (
+          <Text key={index}>{colaboradores.primeironome} {colaboradores.sobrenome}, {colaboradores.vertente}</Text>
+        ))}
+      </View>
+
 
       <ScrollView style={styles.scrollView}>
         <Text style={styles.text}></Text>
