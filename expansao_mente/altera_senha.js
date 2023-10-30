@@ -28,7 +28,7 @@ export default function altera_senha() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_login')}>
-        <Text style={{ color: 'blue', textAlign: 'left' }}>Voltar</Text>
+        <Text style={{ color: 'darkblue', textAlign: 'left' }}>Voltar</Text>
       </TouchableOpacity>
 
       <Text style={styles.display}>Expansão da Mente</Text>
