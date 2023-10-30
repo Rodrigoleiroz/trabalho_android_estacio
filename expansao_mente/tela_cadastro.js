@@ -65,7 +65,7 @@ const tela_cadastro = () => {
     <View style={styles.container}>
 
       <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_login')}>
-        <Text style={{ color: 'blue', textAlign: 'left' }}>Voltar</Text>
+        <Text style={{ color: 'darkblue', textAlign: 'left' }}>Voltar</Text>
       </TouchableOpacity>
       <Text style={styles.display}>Expansão da Mente</Text>
 
@@ -255,27 +255,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     padding: 15,
   },
-  // senha: {
-  //   backgroundColor: '#FFF',
-  //   borderWidth: 1,
-  //   borderRadius: 20,
-  //   width: 350,
-  //   height: 45,
-  //   marginLeft: 10,
-  //   marginTop: 5,
-  //   padding: 15,
-  // },
-  // confirmasenha: {
-  //   backgroundColor: '#FFF',
-  //   borderWidth: 1,
-  //   borderRadius: 20,
-  //   width: 350,
-  //   height: 45,
-  //   marginLeft: 10,
-  //   marginTop: 5,
-  //   marginBottom: 10,
-  //   padding: 15,
-  // }, 
   inputArea:{
     flexDirection: 'row',
     borderWidth: 1,
