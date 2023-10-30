@@ -7,6 +7,8 @@ import altera_senha from './altera_senha';
 import nova_senha from './nova_senha';
 import { initDatabase } from './db';
 import tela_marcacao from './tela_marcacao';
+import tela_perfil from './tela_perfil';
+import tela_info from './tela_info';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,8 @@ useEffect(() => {
         <Stack.Screen name="altera_senha" component={altera_senha} />
         <Stack.Screen name="nova_senha" component={nova_senha} />
         <Stack.Screen name="tela_marcacao" component={tela_marcacao} />
+        <Stack.Screen name="tela_perfil" component={tela_perfil} />
+        <Stack.Screen name="tela_info" component={tela_info} />
         {/* Outras telas podem ser adicionadas aqui */}
       </Stack.Navigator>
     </NavigationContainer>
