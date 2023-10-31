@@ -1,13 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { getDbConnection, getUsuario, updateUsuario } from './db';
+import { getDbConnection, getUsuario, updateUsuario, excluirUsuario } from './db';
 import tela_marcacao from './tela_marcacao.js'
+import { useRoute } from '@react-navigation/native';
 
 
 const tela_perfil = () => {
+
+  const [edicoesFeitas, setEdicoesFeitas] = useState(false);
+  const navigation = useNavigation();
+  const [hidePass, setHidePass] = useState(true);
+
+  const route = useRoute();
+  const { cpf } = route.params;
+
   const [userData, setUserData] = useState({
     cpf: '',
     primeironome: '',
@@ -15,10 +24,7 @@ const tela_perfil = () => {
     email: '',
     celular: '',
     senha: '',
-  });
-  const [edicoesFeitas, setEdicoesFeitas] = useState(false);
-  const navigation = useNavigation();
-  const [hidePass, setHidePass] = useState(true);
+  });  
 
   useEffect(() => {
     carregarDadosDoUsuario();
@@ -27,10 +33,10 @@ const tela_perfil = () => {
   const carregarDadosDoUsuario = async () => {
     try {
       const db = await getDbConnection();
-      const usuarios = await getUsuario(db);
-      if (usuarios.length > 0) {
-        const usuario = usuarios[0]; // Assumindo que haja apenas um usuário
-        setUserData(usuario);
+      const usuarios = await getUsuario(db, cpf);
+
+      if (usuarios) {
+        setUserData(usuarios);
       }
     } catch (error) {
       console.error('Erro ao carregar dados do usuário:', error);
@@ -61,22 +67,57 @@ const tela_perfil = () => {
   
       if (result.rowsAffected > 0) {
           // As edições foram salvas com sucesso
-          navigation.navigate('tela_marcacao');
+          navigation.navigate('tela_marcacao', {cpf});
       } else {
           alert('Nenhuma alteração foi feita.');
       }
   } catch (error) {
       console.error('Erro ao salvar edições:', error);
       alert('Erro ao salvar edições. Verifique o console para mais informações.');
-  }
+  }  
+  };
+
+  const handleExcluirConta = async () => {
+    Alert.alert(
+      'Confirmação',
+      'Tem certeza que deseja excluir a sua conta?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel', // Esse botão fecha o alerta
+        },
+        {
+          text: 'Sim',
+          onPress: async () => {
+            try {
+              const db = await getDbConnection();
+              const result = await excluirUsuario(db, cpf);
   
+              if (result.rowsAffected > 0) {
+                // Conta excluída com sucesso
+                alert('Sua conta foi excluída com sucesso.');
+                navigation.navigate('tela_login', {cpf});
+              } else {
+                alert('Não foi possível excluir a conta.');
+              }
+            } catch (error) {
+              console.error('Erro ao excluir conta:', error);
+              alert('Erro ao excluir a conta. Verifique o console para mais informações.');
+            }
+          },
+        },
+      ],
+      { cancelable: false } // O usuário não pode fechar o alerta clicando fora dele
+    );
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_marcacao')}>
+
+      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_marcacao', {cpf})}>
         <Text style={{ color: 'darkblue', textAlign: 'left' }}>Voltar</Text>
       </TouchableOpacity>
+
       <Text style={styles.display}>Expansão da Mente</Text>
 
       <Image
@@ -151,6 +192,11 @@ const tela_perfil = () => {
       >
         <Text style={{ color: 'white', textAlign: 'center' }}>Salvar Alterações</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botaoExcluir} onPress={handleExcluirConta}>
+        <Text style={{ color: 'red', textAlign: 'right', marginTop: '20%' }}>Excluir Conta</Text>
+      </TouchableOpacity>
+
 
       <ScrollView style={styles.scrollView}>
         <Text style={styles.text}></Text>
