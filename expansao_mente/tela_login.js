@@ -10,25 +10,40 @@ import { Ionicons } from '@expo/vector-icons';
 const Stack = createStackNavigator();
 
 const tela_login = () => {
-  const [usuario, setUsuario] = useState('');
+  const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
-  const [erroUsuario, setErroUsuario] = useState('');
+  const [erroCpf, setErroCpf] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
     const dbConnection = await db.getDbConnection();
-    const usuarios = await db.getUsuario(dbConnection);
 
-    const usuarioEncontrado = usuarios.find((user) => user.email === usuario && user.senha === senha);
+    if (!cpf) {
+      setErroCpf('Campo CPF é obrigatório.');
+      return;
+    } else {
+      setErroCpf('');
+    }
+    
+    // Verifique se o CPF tem 11 caracteres
+    if (cpf.length !== 11) {
+      setErroCpf('CPF deve conter 11 dígitos.');
+      return;
+    } else {
+      setErroCpf('');
+    }
 
-    if (usuarioEncontrado) {
+
+    const usuarioEncontrado = await db.getUsuario(dbConnection, cpf);
+
+    if (usuarioEncontrado && usuarioEncontrado.senha === senha) {
       console.log('Usuário logado:', usuarioEncontrado);
-      navigation.navigate('tela_marcacao');
-      setUsuario('');
+      navigation.navigate('tela_marcacao', { cpf });
+      setCpf('');
       setSenha('');
     } else {
-      alert('Usuário e/ou Senha inválidos');
+      alert('CPF e/ou Senha inválidos');
     }
   };
 
@@ -67,14 +82,14 @@ const tela_login = () => {
 
       <Text style={styles.display2}></Text>
       <TextInput
-        placeholder="Email do usuário"
-        style={styles.usuario}
-        value={usuario}
-        onChangeText={(texto) => setUsuario(texto)}
+        placeholder="Cpf do usuário"
+        style={styles.cpf}
+        value={cpf}
+        onChangeText={(texto) => setCpf(texto)}
       />
 
-      {erroUsuario ? (
-        <Text style={styles.erro}>{erroUsuario}</Text>
+      {erroCpf ? (
+        <Text style={styles.erro}>{erroCpf}</Text>
       ) : null}
 
       <View style={styles.inputArea}>
@@ -140,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  usuario: {
+  cpf: {
     backgroundColor: '#FFF',
     borderWidth: 1,
     borderRadius: 20,
