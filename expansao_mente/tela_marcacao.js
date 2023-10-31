@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Picker } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import tela_perfil from './tela_perfil';
+import { useRoute } from '@react-navigation/native';
 
 import { buscarColaboradoresPorFiltro } from './db';
 
@@ -15,6 +16,9 @@ const tela_marcacao = () => {
   const [selectedConvenio, setSelectedConvenio] = useState('');
   const [selectedEstado, setSelectedEstado] = useState('');
   const navigation = useNavigation();
+
+const route = useRoute();
+const { cpf } = route.params;
 
   const [profissionaisFiltrados, setProfissionaisFiltrados] = useState([]); // Armazene os profissionais filtrados
   const [resultadosBusca, setResultadosBusca] = useState([]);
@@ -50,14 +54,17 @@ const tela_marcacao = () => {
     // Exemplo de chamada para getProfissionais com as variáveis selecionadas:
     // const profissionaisFiltrados = await getProfissionais(selectedVertente, selectedConvenio, selectedEstado);
     // Faça o que for necessário com profissionaisFiltrados.
-    
   };
 
   return (
     <View style={styles.container}>
 
-      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('tela_perfil')}>
+      <TouchableOpacity style={styles.botaoPerfil} onPress={() => navigation.navigate('tela_perfil', {cpf})}>
         <Text style={{ color: 'darkblue', textAlign: 'right' }}>Perfil</Text>
+      </TouchableOpacity>
+
+    <TouchableOpacity style={styles.botaoSair} onPress={() => navigation.navigate('tela_login')}>
+        <Text style={{ color: 'darkblue', textAlign: 'left' }}>Sair</Text>
       </TouchableOpacity>
 
       <Text style={styles.display}>Expansão da Mente</Text>
