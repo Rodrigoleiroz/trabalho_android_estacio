@@ -25,40 +25,86 @@ const tela_cadastro = () => {
   const handleGravar = async () => {
     console.log('Entrou na função handleGravar');
 
-    // Verifique se todos os campos estão preenchidos
-    if (!cpf || !primeironome || !sobrenome || !email || !celular || !senha || !confirmasenha) {
-      alert('Por favor, preencha todos os campos.');
+    // Validação de CPF
+    if (!cpf) {
+      alert('O campo CPF é obrigatório.');
+      return;
+    } else if (cpf.length !== 11 || !/^\d+$/.test(cpf)) {
+      alert('CPF inválido. Deve conter 11 dígitos numéricos.');
       return;
     }
 
-    // Verifique se as senhas coincidem
+    // Validação de Email
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(\.[a-zA-Z]{2,4})?$/;
+    if (!emailPattern.test(email)) {
+      alert('Por favor, insira um email válido.');
+      return;
+    }
+
+    // Validação de Celular
+    const celularPattern = /^[0-9]{10,11}$/;
+    if (!celularPattern.test(celular)) {
+      alert('Por favor, insira um número de celular válido com 10 a 11 dígitos.');
+      return;
+    }
+
+    // Validação de Senhas
+    if (!senha || !confirmasenha) {
+      alert('Por favor, preencha ambas as senhas.');
+      return;
+    }
+
     if (senha !== confirmasenha) {
       alert('As senhas não coincidem. Por favor, verifique.');
       return;
     }
 
-    // Agora você pode continuar com o código de inserção no banco de dados
     try {
       await initDatabase();
       const db = await getDbConnection();
 
-      // Fornecer os valores cpf, primeironome, sobrenome, email, celular e senha para insertUsuario
+      // Verificar se o CPF já existe no banco de dados
+      const result = await checkIfCPFExists(db, cpf);
+      if (result.rows.length > 0) {
+        alert('CPF já cadastrado. Por favor, insira um CPF diferente.');
+        return;
+      }
+
+      // Agora você pode continuar com o código de inserção no banco de dados
       await insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha);
-      
+
       setCpf('');
       setPrimeironome('');
       setSobrenome('');
       setEmail('');
       setCelular('');
       setSenha('');
-      setConfirmasenha('');
-      
+
       alert('Registro gravado com sucesso!');
       navigation.navigate('tela_login');
     } catch (error) {
       console.error('Erro ao gravar registro:', error);
       alert('Erro ao gravar registro. Verifique o console para mais informações.');
     }
+  };
+
+  // Função para verificar se o CPF já existe no banco de dados
+  const checkIfCPFExists = async (db, cpf) => {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM usuarios WHERE cpf = ?',
+          [cpf],
+          (_, result) => {
+            resolve(result);
+          },
+          (_, error) => {
+            console.error('Erro durante a verificação do CPF:', error);
+            reject(error);
+          }
+        );
+      });
+    });
   };
 
   return (
