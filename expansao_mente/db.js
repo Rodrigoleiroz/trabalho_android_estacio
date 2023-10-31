@@ -16,7 +16,7 @@ export async function initDatabase() {
     await createColaboradoresTable(db); 
     console.log('Tabela "colaboradores" criada');
     await createColaboradoresTable(db);
-    await inserirRegistrosIniciais(db);
+    // await inserirRegistrosIniciais(db);
 
     // Não feche a conexão aqui, mantenha-a aberta
     // db.close();
@@ -71,43 +71,6 @@ export async function createColaboradoresTable(db) {
     });
 }
 
-export async function inserirRegistrosIniciais(db) {
-    return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            // Inserir o primeiro registro
-            tx.executeSql(
-                'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                ['81234', 'João', 'Silva', 'Hospital', 'Bradesco Saúde', 'São Paulo', 'joao.silva@example.com', '11987654321'],
-                (_, result) => {
-                    // Inserir o segundo registro
-                    tx.executeSql(
-                        'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                        ['81235', 'Maria', 'Santos', 'Clínica', 'Amil', 'Belo Horizonte', 'maria.santos@example.com', '3134567890'],
-                        (_, result) => {
-                            // Inserir o terceiro registro
-                            tx.executeSql(
-                                'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
-                                ['81236', 'Pedro', 'Ferreira', 'Consultório', 'Unimed', 'Porto Alegre', 'pedro.ferreira@example.com', '51398765432'],
-                                (_, result) => {
-                                    resolve();
-                                },
-                                (_, error) => {
-                                    reject(error);
-                                }
-                            );
-                        },
-                        (_, error) => {
-                            reject(error);
-                        }
-                    );
-                },
-                (_, error) => {
-                    reject(error);
-                }
-            );
-        });
-    });
-}
 
 export async function insertUsuario(db, cpf, primeironome, sobrenome, email, celular, senha) {
     return new Promise((resolve, reject) => {
@@ -127,23 +90,85 @@ export async function insertUsuario(db, cpf, primeironome, sobrenome, email, cel
     });
 }
 
-export async function getUsuario(db) {
+// export async function inserirRegistrosIniciais(db) {
+//     return new Promise((resolve, reject) => {
+//         db.transaction((tx) => {
+//             // Inserir o primeiro registro
+//             tx.executeSql(
+//                 'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+//                 ['81234', 'João', 'Silva', 'Hospital', 'Bradesco Saúde', 'São Paulo', 'joao.silva@example.com', '11987654321'],
+//                 (_, result) => {
+//                     // Inserir o segundo registro
+//                     tx.executeSql(
+//                         'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+//                         ['81235', 'Maria', 'Santos', 'Clínica', 'Amil', 'Belo Horizonte', 'maria.santos@example.com', '3134567890'],
+//                         (_, result) => {
+//                             // Inserir o terceiro registro
+//                             tx.executeSql(
+//                                 'INSERT INTO colaboradores (crp, primeironome, sobrenome, vertente, convenio, estado, email, celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?);',
+//                                 ['81236', 'Pedro', 'Ferreira', 'Consultório', 'Unimed', 'Porto Alegre', 'pedro.ferreira@example.com', '51398765432'],
+//                                 (_, result) => {
+//                                     resolve();
+//                                 },
+//                                 (_, error) => {
+//                                     reject(error);
+//                                 }
+//                             );
+//                         },
+//                         (_, error) => {
+//                             reject(error);
+//                         }
+//                     );
+//                 },
+//                 (_, error) => {
+//                     reject(error);
+//                 }
+//             );
+//         });
+//     });
+// }
+
+
+export async function getUsuario(db, cpf) {
     return new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql('SELECT cpf, primeironome, sobrenome, email, celular, senha FROM usuarios', [], (_, results) => {
-                // Mapeie os resultados para um array de objetos
-                const usuarios = [];
-                for (let i = 0; i < results.rows.length; i++) {
-                    const row = results.rows.item(i);
-                    usuarios.push(row);
-                }
-                resolve(usuarios);
-            }, (_, error) => {
-                reject(error);
-            });
-        });
+      db.transaction((tx) => {
+        tx.executeSql(
+          'SELECT cpf, primeironome, sobrenome, email, celular, senha FROM usuarios WHERE cpf = ?',
+          [cpf],
+          (_, results) => {
+            // Verifique se algum usuário foi encontrado
+            if (results.rows.length > 0) {
+              const user = results.rows.item(0); // Pegue o primeiro usuário encontrado
+              resolve(user);
+            } else {
+              resolve(null); // Nenhum usuário com o CPF especificado foi encontrado
+            }
+          },
+          (_, error) => {
+            reject(error);
+          }
+        );
+      });
     });
-}
+  }
+  
+
+export async function getProfileData(db, userId) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql('SELECT * FROM usuarios WHERE cpf = ?', [userId], (_, results) => {
+          if (results.rows.length > 0) {
+            const userData = results.rows.item(0);
+            resolve(userData);
+          } else {
+            resolve(null); // Usuário não encontrado
+          }
+        }, (_, error) => {
+          reject(error);
+        });
+      });
+    });
+  }
 
 export async function buscarColaboradoresPorFiltro() {
     const db = await getDbConnection();
@@ -183,3 +208,32 @@ export async function updateUsuario(db, cpf, primeironome, sobrenome, email, cel
         });
     });
 }
+
+export async function excluirUsuario(db, cpf) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          'DELETE FROM usuarios WHERE cpf = ?',
+          [cpf],
+          (_, result) => {
+            resolve(result);
+          },
+          (_, error) => {
+            reject(error);
+          }
+        );
+      });
+    });
+}
+  
+// export const excluirUsuario = async (cpf) => {
+//     try {
+//       const db = await DatabaseConnection.getConnection();
+//       const query = 'DELETE FROM usuarios WHERE cpf = ?';
+//       await db.executeSql(query, [cpf]);
+//       return true; // Indica que a exclusão foi bem-sucedida
+//     } catch (error) {
+//       console.error('Erro ao excluir usuário:', error);
+//       return false; // Indica que houve um erro na exclusão
+//     }
+//   };
