@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import tela_cadastro from './tela_cadastro';
-import tela_login_prof from './tela_login_prof';
+import tela_cadastro_prof from './tela_cadastro_prof';
 import altera_senha from './altera_senha';
 
 export default function tela_login() {
@@ -17,14 +16,9 @@ export default function tela_login() {
   };
 
   const navigateToTelaCadastro = () => {
-    // Navegue para a tela 'tela_cadastro'
-    navigation.navigate('tela_cadastro');
+    // Navegue para a tela 'tela_cadastro_prof'
+    navigation.navigate('tela_cadastro_prof');
   };
-  const navigateToTelaloginprof = () => {
-    // Navegue para a tela 'tela_login_profissional'
-    navigation.navigate('tela_login_prof');
-  };
-  
 
   const showAlert = () => {
     // Verifique se o email é válido antes de fazer o login
@@ -43,7 +37,7 @@ export default function tela_login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.display}>Expansão da Mente</Text>
+      <Text style={styles.display}>Expansão da Mente - Profissional</Text>
 
       <Image
         style={styles.imagem}
@@ -81,10 +75,6 @@ export default function tela_login() {
 
         <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToTelaCadastro}>
           <Text style={{ color: 'blue', textAlign: 'center' }}>Cadastrar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.link, { alignSelf: 'flex-start' }]} onPress={navigateToTelaloginprof}>
-          <Text style={{ color: 'black', textAlign: 'center' }}>Login Profissional</Text>
         </TouchableOpacity>
       </View>
 
