@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Picker } f
 import { useNavigation } from '@react-navigation/native';
 import tela_perfil from './tela_perfil';
 import { useRoute } from '@react-navigation/native';
+import tela_todos_colab from './tela_todos_colab';
 
 import { buscarColaboradoresPorFiltro } from './db';
 
@@ -61,6 +62,10 @@ const { cpf } = route.params;
 
       <TouchableOpacity style={styles.botaoPerfil} onPress={() => navigation.navigate('tela_perfil', {cpf})}>
         <Text style={{ color: 'darkblue', textAlign: 'right' }}>Perfil</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botaoColab} onPress={() => navigation.navigate('tela_todos_colab', {cpf})}>
+        <Text style={{ color: 'darkblue', textAlign: 'right' }}>Colaboradores</Text>
       </TouchableOpacity>
 
     <TouchableOpacity style={styles.botaoSair} onPress={() => navigation.navigate('tela_login')}>

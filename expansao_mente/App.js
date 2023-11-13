@@ -9,6 +9,7 @@ import { initDatabase } from './db';
 import tela_marcacao from './tela_marcacao';
 import tela_perfil from './tela_perfil';
 import tela_info from './tela_info';
+import tela_todos_colab from './tela_todos_colab';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,8 @@ useEffect(() => {
         <Stack.Screen name="tela_marcacao" component={tela_marcacao} />
         <Stack.Screen name="tela_perfil" component={tela_perfil} />
         <Stack.Screen name="tela_info" component={tela_info} />
+        <Stack.Screen name="tela_todos_colab" component={tela_todos_colab} />
+
         {/* Outras telas podem ser adicionadas aqui */}
       </Stack.Navigator>
     </NavigationContainer>
